@@ -36,7 +36,7 @@ class _HomeState extends State< Home >{
 
   void todoDelete( int id ) async {
     try{
-      final response = await dio.delete( path );
+      final response = await dio.delete( path + "?id=$id" );
       final data = response.data;
       if( data ){ todoFindAll(); }
     }catch( e ){ print( e ); }
@@ -53,8 +53,9 @@ class _HomeState extends State< Home >{
                 child: ListView(
                   children: productList.map( ( product ){
                     return Card( child: ListTile(
-                      title: Text( "제품명 : $product['name']" ),
+                      title: Text( "제품명 : ${ product['name'] }" ),
                       subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start, // 왼쪽 정렬
                         children: [
                           Text( "제품 설명 : ${ product['description'] }" ),
                           Text( "제품 수량 : ${ product['quantity'] }" ),
@@ -66,15 +67,15 @@ class _HomeState extends State< Home >{
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                              onPressed: () => {},
+                              onPressed: () => { Navigator.pushNamed( context, "/update", arguments: product['id'] ) },
                               icon: Icon( Icons.edit_outlined )
                           ),
                           IconButton(
-                              onPressed: () => {},
+                              onPressed: () => { Navigator.pushNamed( context, "/detail", arguments: product['id'] ) },
                               icon: Icon( Icons.info_outline )
                           ),
                           IconButton(
-                              onPressed: () => { todoDelete( product.id ) },
+                              onPressed: () => { todoDelete( product['id'] ) },
                               icon: Icon( Icons.close )
                           ),
                         ],
@@ -83,6 +84,10 @@ class _HomeState extends State< Home >{
                   );
                 }).toList(),
               )
+            ),
+            OutlinedButton(
+                onPressed: () => { Navigator.pushNamed( context, "/write" ) },
+                child: Text("비품 등록")
             )
           ],
         ),

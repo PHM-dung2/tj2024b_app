@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:tj2024b_app/example/day05/Detail.dart';
 import 'package:tj2024b_app/example/day05/Home.dart';
+import 'package:tj2024b_app/example/day05/Update.dart';
 import 'package:tj2024b_app/example/day05/Write.dart';
 
 void main(){
@@ -15,8 +17,8 @@ class MyApp extends StatelessWidget{
       routes: {
         "/" : (context) => Home(),
         "/write" : (context) => Write(),
-        // "/detail" : (context) => Detail(),
-        // "/update" : (context) => Update(),
+        "/detail" : (context) => Detail(),
+        "/update" : (context) => Update(),
       },
     );
   }

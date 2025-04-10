@@ -18,7 +18,7 @@ class _UpdateState extends State< Update >{ // 클래스명 앞에 _ 언더바�
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // (1) 이전 위젯으로부터 전닯다은 인수(arguments)를 가져오기\
+    // (1) 이전 위젯으로부터 전달받은 인수(arguments)를 가져오기\
     int id = ModalRoute.of( context )!.settings.arguments as int;
     print( id );
     // (2) 전달받은 인수(id)를 자바에게 보내고 응답객체 받기
