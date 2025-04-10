@@ -25,7 +25,8 @@ class _WriteState extends State< Write >{
         "content" : contentController.text, // 내용
         "done" : false // 상태, 초기값
       };
-      final response = await dio.post( "http://192.168.40.97:8080/day04/todos", data: sendData );
+      // final response = await dio.post( "http://192.168.40.97:8080/day04/todos", data: sendData );
+      final response = await dio.post( "http://alleged-camel-thejoeun-park-c2a346cf.koyeb.app/day04/todos", data: sendData );
       final data = response.data;
       if( data != null ){ // 등록 성공 했으면
         Navigator.pushNamed(context, "/"); // 라우터 이용한 "/" 메인페이지 이동

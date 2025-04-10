@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:tj2024b_app/example/day04/todo/Home.dart';
 import 'package:tj2024b_app/example/day04/todo/Detail.dart';
+import 'package:tj2024b_app/example/day04/todo/Update.dart';
 import 'package:tj2024b_app/example/day04/todo/Write.dart';
 
 void main(){
@@ -19,8 +20,13 @@ class MyApp extends StatelessWidget{
         "/" : (context) => Home(), // 만약에 "/" 해당 경로로 호출하면 Home 위젯이 열린다.
         "/write" : (context) => Write(),
         "/detail" : (context) => Detail(),
-        // "/update" : (context) => Update(),
+        "/update" : (context) => Update(),
       }
     );
   }
 }
+
+// 안드로이드 : apk 확장자 파일로 만들기
+// IOS : ipa 확장자 파일로 만들기
+
+// 1. 터미널
