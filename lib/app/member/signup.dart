@@ -3,6 +3,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+String memberPath = 'http://192.168.40.97:8080/api/member';
+
 class SignUp extends StatefulWidget{
   @override
   _SignUpState createState() {
@@ -27,11 +29,12 @@ class _SignUpState extends State< SignUp >{
       "name" : nameController.text,
     };
     print( sendData ); // 확인
-    final response = await dio.post( 'http://192.168.40.97:8080/api/member', data: sendData );
+    final response = await dio.post( memberPath , data: sendData );
     final data = response.data;
     if( data ){
+      print('회원가입 성공');
       Navigator.pushNamed( context, "/" );
-    }
+    }else{ print('회원가입 실패'); }
   } // f end
 
   @override
