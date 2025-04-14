@@ -27,7 +27,11 @@ class _SignUpState extends State< SignUp >{
       "name" : nameController.text,
     };
     print( sendData ); // 확인
-    // final response = await dio.post('');
+    final response = await dio.post( 'http://192.168.40.97:8080/api/member', data: sendData );
+    final data = response.data;
+    if( data ){
+      Navigator.pushNamed( context, "/" );
+    }
   } // f end
 
   @override
