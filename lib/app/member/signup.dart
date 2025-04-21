@@ -24,16 +24,16 @@ class _SignUpState extends State< SignUp >{
   void onSignUp() async {
     // 1. 자바에 보낼 데이터 준비
     final sendData = {
-      "email" : emailController.text, // 입력 컨트롤러에 입력된 값 가져오기
-      "pwd" : pwdController.text,
-      "name" : nameController.text,
+      "memail" : emailController.text, // 입력 컨트롤러에 입력된 값 가져오기
+      "mpwd" : pwdController.text,
+      "mname" : nameController.text,
     };
     print( sendData ); // 확인
     final response = await dio.post( memberPath , data: sendData );
     final data = response.data;
     if( data ){
       print('회원가입 성공');
-      Navigator.pushNamed( context, "/" );
+      // Navigator.pushNamed( context, "/" );
     }else{ print('회원가입 실패'); }
   } // f end
 
@@ -72,7 +72,7 @@ class _SignUpState extends State< SignUp >{
                 child: Text('회원가입')
             ),
             TextButton(
-                onPressed: () => {},
+                onPressed: () => { Navigator.pushNamed( context, '/login' ) },
                 child: Text('로그인')
             ),
           ],
