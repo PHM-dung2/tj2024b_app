@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tj2024b_app/app/layout/mainapp.dart';
+import 'package:tj2024b_app/app/member/login.dart';
 
 String memberPath = 'http://192.168.40.97:8080/api/member';
 
@@ -38,9 +40,8 @@ class _InfoState extends State< Info >{
         onInfo( token ); // 로그인 중일 때 로그인 정보 요청 함수 실행
       });
     }else{
-      setState(() {
-        isLogIn = false; print("비로그인 중");
-      });
+      // Navigator.pushReplacement( context , MaterialPageRoute (builder: ( context ) => 이동할위젯명() ) );
+      Navigator.pushReplacement( context , MaterialPageRoute( builder: ( context ) => Login() ) );
     }
   }
 
@@ -77,14 +78,25 @@ class _InfoState extends State< Info >{
     final response = await dio.get( memberPath + "/logout" );
     // 3. 전역변수(클라이언트)에도 토느 삭제
     await prefs.remove('token');
+    isLogIn = null;
+    // 4. 페이지 전환 이동
+    Navigator.pushReplacement( context, MaterialPageRoute( builder: ( context ) => MainApp() ) );
   } // f end
 
   @override
   Widget build(BuildContext context) {
+
+    // - 만약에 로그인 상태가 확인 되기 전, 대기 화면 표현
+    if( isLogIn == null ){ // 만약에 비로그인이면
+      return Scaffold(
+        body: Center( child: CircularProgressIndicator(), ),
+      );
+    }
+
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all( 50 ),
-        margin: EdgeInsets.all( 50 ),
+        padding: EdgeInsets.all( 30 ),
+        margin: EdgeInsets.all( 30 ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

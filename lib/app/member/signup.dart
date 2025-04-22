@@ -2,6 +2,8 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:tj2024b_app/app/member/login.dart';
 
 String memberPath = 'http://192.168.40.97:8080/api/member';
 
@@ -28,22 +30,41 @@ class _SignUpState extends State< SignUp >{
       "mpwd" : pwdController.text,
       "mname" : nameController.text,
     };
-    print( sendData ); // 확인
-    final response = await dio.post( memberPath , data: sendData );
-    final data = response.data;
-    if( data ){
-      print('회원가입 성공');
-      // Navigator.pushNamed( context, "/" );
-    }else{ print('회원가입 실패'); }
+
+    // * Rest API 통신 간의 로딩 화면 표시, showDialog() : 팝업 창 띄우기 위한 위젯
+    showDialog(
+      context: context,
+      builder: ( context ) => Center( child: CircularProgressIndicator(), ),
+      barrierDismissible: false, // 팝업창(로딩화면) 외 바깥 클릭 차단
+    );
+    // 2.
+    try {
+      print(sendData); // 확인
+      final response = await dio.post(memberPath, data: sendData);
+      final data = response.data;
+
+      Navigator.pop( context );
+
+      if (data) {
+        print('회원가입 성공');
+
+        Fluttertoast.showToast( msg: "회원가입 성공했습니다." );
+
+        // * 페이지 전환
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Login()));
+      } else { print('회원가입 실패'); }
+    }catch( e ){ print( e ); }
   } // f end
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all( 50 ), // EdgeInsets.all() : 상하좌우 모두 적영되는 안쪽 여백
-        margin: EdgeInsets.all( 50 ),
+        padding: EdgeInsets.all( 30 ), // EdgeInsets.all() : 상하좌우 모두 적영되는 안쪽 여백
+        margin: EdgeInsets.all( 30 ),
         child: Column( // 세로배치 위젯
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [ // 하위 위젯
             TextField(
               controller: emailController,
@@ -71,9 +92,12 @@ class _SignUpState extends State< SignUp >{
                 onPressed: onSignUp,
                 child: Text('회원가입')
             ),
+
+            SizedBox( height: 20,),
+
             TextButton(
-                onPressed: () => { Navigator.pushNamed( context, '/login' ) },
-                child: Text('로그인')
+                onPressed: () => { Navigator.pushReplacement( context, MaterialPageRoute( builder : ( context ) => Login() ) ) },
+                child: Text('이미 가입된 사용자면 로그인')
             ),
           ],
         ),

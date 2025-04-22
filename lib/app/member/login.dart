@@ -2,6 +2,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tj2024b_app/app/layout/mainapp.dart';
+import 'package:tj2024b_app/app/member/signup.dart';
 
 String memberPath = 'http://192.168.40.97:8080/api/member';
 
@@ -32,8 +34,13 @@ class _LoginState extends State< Login >{
         SharedPreferences prefs = await SharedPreferences.getInstance();
         // 2. 전역변수 값 추가
         await prefs.setString( 'token' , data );
+
         print('로그인 성공');
-        Navigator.pushNamed( context, "/" );
+        // * 로그인 성공시 페이지 전환
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute( builder: ( context ) => MainApp() ),
+        );
       }else{ print('로그인 실패'); }
     }catch( e ){ print( e ); }
   } // f end
@@ -42,8 +49,8 @@ class _LoginState extends State< Login >{
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all( 50 ),
-        margin: EdgeInsets.all( 50 ),
+        padding: EdgeInsets.all( 30 ),
+        margin: EdgeInsets.all( 30 ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center, // 현재 축(Column) 기준으로 가로 또는 세로 정렬
           children: [
@@ -70,8 +77,8 @@ class _LoginState extends State< Login >{
             SizedBox( height: 20 ,),
 
             TextButton(
-              onPressed: () => {},
-              child: Text('회원가입')
+              onPressed: () => { Navigator.pushReplacement( context, MaterialPageRoute( builder : ( context ) => SignUp() ) ) },
+              child: Text('처음 방문이면 회원가입')
             )
           ],
         ),
