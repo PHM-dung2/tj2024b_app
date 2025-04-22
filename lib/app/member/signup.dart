@@ -48,7 +48,15 @@ class _SignUpState extends State< SignUp >{
       if (data) {
         print('회원가입 성공');
 
-        Fluttertoast.showToast( msg: "회원가입 성공했습니다." );
+        Fluttertoast.showToast(
+          msg: "회원가입 성공했습니다.", // 출력할 내용
+          toastLength: Toast.LENGTH_LONG, // 메시지 유지시간
+          gravity: ToastGravity.CENTER, // 메시지 위치 : 앱 적용
+          timeInSecForIosWeb: 3, // 자세한 유지시간(sec)
+          backgroundColor: Colors.deepPurple, // 배경색
+          textColor: Colors.black, // 글자색상
+          fontSize: 16, // 글자 크기
+        );
 
         // * 페이지 전환
         Navigator.pushReplacement(
