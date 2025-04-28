@@ -1,8 +1,7 @@
 // * mainapp.dart :
 import 'package:flutter/material.dart';
 import 'package:tj2024b_app/app/member/Info.dart';
-import 'package:tj2024b_app/app/member/login.dart';
-import 'package:tj2024b_app/app/member/signup.dart';
+import 'package:tj2024b_app/app/product/productList.dart';
 
 class MainApp extends StatefulWidget{
   @override
@@ -17,14 +16,14 @@ class _MainAppState extends State< MainApp >{
     // Widget : 여러 위젯들을 상속하는 상위 위젯( 클래스 )
   List<Widget> pages = [
     Text("홈 페이지"),
-    Text("게시물1 페이지"),
+    ProductList(), // 제품목록 위젯
     Text("게시물2 페이지"),
     Info(),
   ];
   // 2. 페이지 상단 제목 리스트
   List<String> pageTitle = [
     '홈',
-    '게시물1',
+    '제품목록',
     '게시물2',
     '내정보'
   ];
@@ -61,7 +60,7 @@ class _MainAppState extends State< MainApp >{
         type: BottomNavigationBarType.fixed, // 4개 이상일 때 아이콘 고정 크기 설정, 아이콘이 많아지면 자동으로 확태/ 축소
         items: [ // 여러 개 버튼 위젯들
           BottomNavigationBarItem( icon: Icon( Icons.home ), label: '홈' ), // 아이콘 위젯
-          BottomNavigationBarItem( icon: Icon( Icons.forum ), label: '게시물' ),
+          BottomNavigationBarItem( icon: Icon( Icons.forum ), label: '제품목록' ),
           BottomNavigationBarItem( icon: Icon( Icons.forum ), label: '게시물2' ),
           BottomNavigationBarItem( icon: Icon( Icons.person_search ), label: '내정보(회원가입)' ),
         ],
