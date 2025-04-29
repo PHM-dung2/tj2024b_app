@@ -1,6 +1,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:tj2024b_app/app/util/serverUrl.dart';
 
 class ProductView extends StatefulWidget{
   // * 하나의 필드를 갖는 생성자
@@ -27,7 +28,7 @@ class _ProductViewState extends State< ProductView >{
   // 1.
   Map< String, dynamic > product = {}; // 제품 1개를 저장하는 상태변수
   final dio = Dio();
-  final baseUrl = "http://192.168.40.97:8080";
+  // final baseUrl = "http://192.168.40.97:8080";
 
   // 2. 생명주기
   @override // (1) pno에 해당하는 제품 정보 요청
@@ -38,7 +39,7 @@ class _ProductViewState extends State< ProductView >{
   // 3. 제품 요청
   void onView() async {
     try{               // * 직계 상위 부모 위젯의 접근 : widget.필드명, widget.메소드명()
-      final response = await dio.get( "${baseUrl}/product/view?pno=${widget.pno}");
+      final response = await dio.get( "${ServerUrl}/product/view?pno=${widget.pno}");
       final data = response.data;
       if( data != null ){
         setState(() {
@@ -63,7 +64,7 @@ class _ProductViewState extends State< ProductView >{
       imageWidget = Container(
         height: 300, // 높이
         alignment: Alignment.center, // 가운데 정렬
-        child: Image.network("${baseUrl}/upload/default.jpg", fit: BoxFit.cover, ),
+        child: Image.network("${ServerUrl}/upload/default.jpg", fit: BoxFit.cover, ),
       );
     }else{ // 이미지들이 존재하면
       imageWidget = Container(
@@ -72,7 +73,7 @@ class _ProductViewState extends State< ProductView >{
           scrollDirection: Axis.horizontal , // 목록 스크롤 방향, 기본값 : 세로, 가로 설정
           itemCount: images.length, // 이미지 개수 반복
           itemBuilder: (context, index){
-            String imageUrl = "${baseUrl}/upload/${images[index]}"; // index번째 이미지
+            String imageUrl = "${ServerUrl}/upload/${images[index]}"; // index번째 이미지
             return Padding(
               padding: EdgeInsets.all( 5 ),
               child: Image.network( imageUrl, fit: BoxFit.cover ),

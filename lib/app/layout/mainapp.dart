@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:tj2024b_app/app/member/Info.dart';
 import 'package:tj2024b_app/app/product/productList.dart';
+import 'package:tj2024b_app/app/product/productRegister.dart';
 
 class MainApp extends StatefulWidget{
   @override
@@ -17,14 +18,14 @@ class _MainAppState extends State< MainApp >{
   List<Widget> pages = [
     Text("홈 페이지"),
     ProductList(), // 제품목록 위젯
-    Text("게시물2 페이지"),
+    ProductRegister(), // 제품등록 위젯
     Info(),
   ];
   // 2. 페이지 상단 제목 리스트
   List<String> pageTitle = [
     '홈',
     '제품목록',
-    '게시물2',
+    '제품등록',
     '내정보'
   ];
   // 3. 현재 클릭된 페이지 번호 : 상태 변수
@@ -61,7 +62,7 @@ class _MainAppState extends State< MainApp >{
         items: [ // 여러 개 버튼 위젯들
           BottomNavigationBarItem( icon: Icon( Icons.home ), label: '홈' ), // 아이콘 위젯
           BottomNavigationBarItem( icon: Icon( Icons.forum ), label: '제품목록' ),
-          BottomNavigationBarItem( icon: Icon( Icons.forum ), label: '게시물2' ),
+          BottomNavigationBarItem( icon: Icon( Icons.forum ), label: '제품등록' ),
           BottomNavigationBarItem( icon: Icon( Icons.person_search ), label: '내정보(회원가입)' ),
         ],
       )

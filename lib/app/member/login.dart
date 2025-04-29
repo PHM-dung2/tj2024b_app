@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tj2024b_app/app/layout/mainapp.dart';
 import 'package:tj2024b_app/app/member/signup.dart';
+import 'package:tj2024b_app/app/util/serverUrl.dart';
 
-String memberPath = 'http://192.168.40.97:8080/api/member';
+// String memberPath = 'http://192.168.40.97:8080/member';
 
 class Login extends StatefulWidget{
   @override
@@ -27,7 +28,7 @@ class _LoginState extends State< Login >{
     };
     print( sendData );
     try{
-      final response = await dio.post( memberPath + "/login", data: sendData );
+      final response = await dio.post( "${ServerUrl}/member/login", data: sendData );
       final data = response.data;
       if( data != '' ){ // 로그인 성공시 토큰 SharedPreferences 저장하기
         // 1. 전역변수 호출

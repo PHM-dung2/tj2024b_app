@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tj2024b_app/app/layout/mainapp.dart';
 import 'package:tj2024b_app/app/member/login.dart';
+import 'package:tj2024b_app/app/util/serverUrl.dart';
 
-String memberPath = 'http://192.168.40.97:8080/api/member';
+// String memberPath = 'http://192.168.40.97:8080/member';
 
 class Info extends StatefulWidget{
   @override
@@ -55,7 +56,7 @@ class _InfoState extends State< Info >{
       // 방법1 : dio.options.headers['속성명'] = 값;
       // 방법2 : dio.get( option : { headers : { '속성명' : 값 } } )
       dio.options.headers['Authorization'] = token;
-      final response = await dio.get( memberPath + "/info" );
+      final response = await dio.get( "${ServerUrl}/member/info" );
       final data = response.data;
       if( data != '' ){
         setState(() {
@@ -75,7 +76,7 @@ class _InfoState extends State< Info >{
     if( token == null ){ return; } // 없으면 함수 종료
     // 2. 서버에게 로그아웃 요청
     dio.options.headers['Authorization'] = token;
-    final response = await dio.get( memberPath + "/logout" );
+    final response = await dio.get( "${ServerUrl}/member/logout" );
     // 3. 전역변수(클라이언트)에도 토느 삭제
     await prefs.remove('token');
     isLogIn = null;

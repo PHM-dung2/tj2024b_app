@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:tj2024b_app/app/product/productView.dart';
+import 'package:tj2024b_app/app/util/serverUrl.dart';
 
 class ProductList extends StatefulWidget{
   @override
@@ -17,7 +18,7 @@ class _ProductListState extends State< ProductList >{
   List<dynamic> productList = []; // 자바 서버로부터 조회한 제품( DTO ) 목록 상태 변수
   final dio = Dio();
   // String baseUrl = "http://localhost:8080"; // 기본 자바서버의 URL 정의 // 환경에 따라 IP 변경
-  String baseUrl = "http://192.168.40.97:8080"; // 에뮬레이터ㅂㅈ
+  // String baseUrl = "http://192.168.40.97:8080"; // 에뮬레이터
   // * 현재 스크롤의 상태( 위치/크기 등 )을 감지하는 컨트롤러
   // * 무한스크롤( 스크롤이 거의 바닥에 존재했을 때 새로운 자료 요청 )
   final ScrollController scrollController = ScrollController();
@@ -32,7 +33,7 @@ class _ProductListState extends State< ProductList >{
   // 3. 자바서버에게 자료 요청 메소드
   void onProductAll( int currentPage ) async {
     try{
-      final response = await dio.get( "${baseUrl}/product/all?page=${currentPage}" ); // 현재페이지(page) 매개변수로 보낸다.
+      final response = await dio.get( "${ServerUrl}/product/all?page=${currentPage}" ); // 현재페이지(page) 매개변수로 보낸다.
       final data = response.data;
       setState(() {
         page = currentPage; // 증가된 현재페이지를 상태변수에 반영
@@ -76,9 +77,9 @@ class _ProductListState extends State< ProductList >{
         // (3) 만약에 이미지가 존재하면 대표이미지(1개) 추출, 없으면 기본 이미지 추출
         String imageUrl;
         if( images.isEmpty ){ // 리스트(이미지)가 비어있으면
-          imageUrl = "${baseUrl}/upload/default.jpg";
+          imageUrl = "${ServerUrl}/upload/default.jpg";
         }else{
-          imageUrl = "${baseUrl}/upload/${images[0]}";
+          imageUrl = "${ServerUrl}/upload/${images[0]}";
         }
         // (4) 위젯
         return InkWell( // 해당 위젯을 클릭(탭:모바일 터치)하면 '상세페이지'로 이동 구현

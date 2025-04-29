@@ -4,8 +4,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tj2024b_app/app/member/login.dart';
+import 'package:tj2024b_app/app/util/serverUrl.dart';
 
-String memberPath = 'http://192.168.40.97:8080/api/member';
+// String memberPath = 'http://192.168.40.97:8080/member';
 
 class SignUp extends StatefulWidget{
   @override
@@ -40,7 +41,7 @@ class _SignUpState extends State< SignUp >{
     // 2.
     try {
       print(sendData); // 확인
-      final response = await dio.post(memberPath, data: sendData);
+      final response = await dio.post( "${ServerUrl}/member", data: sendData);
       final data = response.data;
 
       Navigator.pop( context );
