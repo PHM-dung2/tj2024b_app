@@ -1,6 +1,8 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tj2024b_app/app/util/serverUrl.dart';
 
 class ProductView extends StatefulWidget{
@@ -29,12 +31,12 @@ class _ProductViewState extends State< ProductView >{
   Map< String, dynamic > product = {}; // 제품 1개를 저장하는 상태변수
   final dio = Dio();
   // final baseUrl = "http://192.168.40.97:8080";
+  // *
+  bool isOwner = false; // 현재 로그인된 회원이 등록한 제품인지 확인 변수
 
   // 2. 생명주기
   @override // (1) pno에 해당하는 제품 정보 요청
-  void initState() {
-    onView();
-  }
+  void initState() { onView(); }
 
   // 3. 제품 요청
   void onView() async {
@@ -45,9 +47,41 @@ class _ProductViewState extends State< ProductView >{
         setState(() {
           product = data;
         });
+
+        // * 현재 로그인된 회원
+        final prefs = await SharedPreferences.getInstance();
+        final token = prefs.getString('token');
+        if( token == null ){ setState(() { isOwner = false; }); } // 비로그인중이면
+        // * 토큰 보내서 토쿤의 회원정보 요청
+        dio.options.headers['Authorization'] = token; // token 포함
+        final response2 = await dio.get("${ServerUrl}/member/info"); // 요청
+        if( response2.data['memail'] == response.data['memail'] ){ // 회원정보의 아이디와 제품의 등록회원아이디와 같으면
+          setState(() { isOwner = true; }); // 현재 로그인된 회원이 내가 등록한 제품을 본다.
+        }
+
       }
     }catch( e ){ print( e ); }
 
+  } // f end
+
+  // 6. 삭제 요청함수
+  void onDelete( pno ) async {
+    try{
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+      if( token == null ){ return; }
+
+      dio.options.headers['Authorization'] = token;
+      final response = await dio.delete("${ServerUrl}/product/delete?pno=${pno}");
+      if( response.data ){
+        print("상품 삭제 완료");
+        Fluttertoast.showToast(
+          msg: "상품 삭제 완료",
+          gravity: ToastGravity.CENTER,
+          textColor: Colors.black,
+        );
+      }
+    }catch( e ){ print( e ); }
   } // f end
 
   // 4. 화면 반환
@@ -114,6 +148,14 @@ class _ProductViewState extends State< ProductView >{
             Text("제품 설명", style: TextStyle( fontSize: 20, fontWeight: FontWeight.bold ),),
             SizedBox( height: 8,),
             Text( product['pcontent'] ),
+            /* 만약에 isOwner가 true이면 로그인된 회원의 제품 */
+            if( isOwner )
+              Row(
+                children: [
+                  ElevatedButton(onPressed: () => {}, child: Text("수정") ),
+                  ElevatedButton(onPressed: () => { onDelete( product['pno'] ) }, child: Text("삭제") ),
+                ],
+              )
           ],
         ),
       ),
